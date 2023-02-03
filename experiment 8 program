@@ -1,0 +1,64 @@
+#include<stdio.h> 
+#include<string.h> 
+
+// This function generates the 
+// monoalphabetic cipher 
+void generateCipher(char *plainText, 
+          char *cipherText, 
+          char *key) 
+{ 
+  // Generate the encryption key 
+  // from the key string 
+  char encryptedKey[26] = {0}; 
+  for (int i = 0, j = 0; i < strlen(key); i++) 
+  { 
+    if (encryptedKey[key[i] - 'a'] == 0) 
+    { 
+      encryptedKey[key[i] - 'a'] = 'a' + j; 
+      j++; 
+    } 
+  } 
+
+  // Generate the remaining 
+  // encryption key 
+  for (int i = 0; i < 26; i++) 
+  { 
+    if (encryptedKey[i] == 0) 
+    { 
+      encryptedKey[i] = 'a' + i; 
+    } 
+  } 
+
+  // Generate cipher text from 
+  // plain text and encryption key 
+  for (int i = 0; i < strlen(plainText); i++) 
+  { 
+    if (plainText[i] >= 'a' && plainText[i] <= 'z') 
+    { 
+      cipherText[i] = encryptedKey[plainText[i] - 'a']; 
+    } 
+
+    // Copy non-alphabetic characters 
+    else
+    { 
+      cipherText[i] = plainText[i]; 
+    } 
+  } 
+  cipherText[strlen(plainText)] = '\0'; 
+} 
+
+// Driver program 
+int main() 
+{ 
+  char plainText[100], cipherText[100]; 
+  char key[] = "cipher"; 
+
+  printf("Enter plain text: "); 
+  gets(plainText); 
+
+  generateCipher(plainText, cipherText, key); 
+
+  printf("Cipher Text: %s", cipherText); 
+
+  return 0; 
+}
