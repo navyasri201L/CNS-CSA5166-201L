@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+#define ROWS 4
+#define COLS 5
+
+char playfair_grid[ROWS][COLS] = {{'K', 'X', 'J', 'E', 'Y'},
+                                   {'U', 'R', 'E', 'B', 'E'},
+                                   {'Z', 'W', 'E', 'H', 'E'},
+                                   {'W', 'R', 'Y', 'T', 'U'}};
+
+void decode(char *input)
+{
+    int i, j, k;
+    for (i = 0; i < strlen(input); i += 2)
+    {
+        int r1 = -1, r2 = -1, c1 = -1, c2 = -1;
+        for (j = 0; j < ROWS; j++)
+        {
+            for (k = 0; k < COLS; k++)
+            {
+                if (playfair_grid[j][k] == input[i])
+                {
+                    r1 = j;
+                    c1 = k;
+                }
+                if (playfair_grid[j][k] == input[i + 1])
+                {
+                    r2 = j;
+                    c2 = k;
+                }
+            }
+        }
+        if (r1 == r2)
+        {
+            c1 = (c1 + 1) % COLS;
+            c2 = (c2 + 1) % COLS;
+        }
+        else if (c1 == c2)
+        {
+            r1 = (r1 + 1) % ROWS;
+            r2 = (r2 + 1) % ROWS;
+        }
+        else
+        {
+            int temp = c1;
+            c1 = c2;
+            c2 = temp;
+        }
+        printf("%c%c", playfair_grid[r1][c1], playfair_grid[r2][c2]);
+    }
+}
+
+int main()
+{
+    char input[] = "HEYFSKREHEGOYFIWTTTUOLKSYCAJPOBOTEIZONTXBYBNTGONEYCUZWRGDSONSXBOUYWRHEBAAHYUSEDQ";
+    decode(input);
+    printf("\n");
+    return 0;
+}
