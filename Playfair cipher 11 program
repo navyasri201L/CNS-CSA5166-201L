@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+
+#define ALPHABET_SIZE 26
+#define KEY_SIZE 25
+#define ROWS 5
+#define COLUMNS 5
+
+char alphabet[ALPHABET_SIZE] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+char key[KEY_SIZE];
+int used[KEY_SIZE];
+int unique_keys = 0;
+
+void print_key() {
+    int i, j;
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLUMNS; j++) {
+            printf("%c ", key[i * COLUMNS + j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void generate_key(int index) {
+    int i;
+    if (index == KEY_SIZE) {
+        print_key();
+        unique_keys++;
+        return;
+    }
+    for (i = 0; i < ALPHABET_SIZE; i++) {
+        if (!used[i]) {
+            used[i] = 1;
+            key[index] = alphabet[i];
+            generate_key(index + 1);
+            used[i] = 0;
+        }
+    }
+}
+
+int main() {
+    memset(used, 0, sizeof(used));
+    generate_key(0);
+    printf("Number of unique keys: %d\n", unique_keys);
+    return 0;
+}
